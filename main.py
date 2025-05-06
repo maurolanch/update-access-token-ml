@@ -55,3 +55,7 @@ def refresh_token():
     )
     logging.info("Token de acceso renovado y guardado exitosamente")
     return "Access token actualizado correctamente", 200
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8080))
+    app.run(host="0.0.0.0", port=port)
