@@ -19,10 +19,14 @@ REFRESH_TOKEN = os.environ["REFRESH_TOKEN"]
 ACCESS_TOKEN_SECRET = os.environ["ACCESS_TOKEN"]
 
 def get_secret(secret_id):
-    client = secretmanager.SecretManagerServiceClient()
-    name = f"projects/{PROJECT_ID}/secrets/{secret_id}/versions/latest"
-    response = client.access_secret_version(request = {"name":name})
-    return response.payload.data.decode("UTF-8")
+    try:
+        client = secretmanager.SecretManagerServiceClient()
+        name = f"projects/{PROJECT_ID}/secrets/{secret_id}/versions/latest"
+        response = client.access_secret_version(request={"name": name})
+        return response.payload.data.decode("UTF-8")
+    except Exception as e:
+        logging.error(f"Error al acceder al secreto '{secret_id}': {e}")
+        raise
 
 @app.route('/', methods=['POST'])
 def refresh_token():
