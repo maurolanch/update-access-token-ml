@@ -7,6 +7,11 @@ import logging
 
 app = Flask(__name__)
 
+required_env_vars = ["PROJECT_ID", "CLIENT_ID", "CLIENT_SECRET", "REFRESH_TOKEN", "ACCESS_TOKEN"]
+for var in required_env_vars:
+    if var not in os.environ:
+        raise EnvironmentError(f"Missing required environment variable: {var}")
+
 PROJECT_ID =  os.environ["PROJECT_ID"]
 CLIENT_ID_SECRET = os.environ["CLIENT_ID"]
 CLIENT_SECRET = os.environ["CLIENT_SECRET"]
